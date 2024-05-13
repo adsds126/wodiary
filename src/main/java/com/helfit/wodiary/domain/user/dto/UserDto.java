@@ -13,9 +13,9 @@ public class UserDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Signup {
-        private String email;
-        private String password;
         private String username;
+        private String password;
+        private String email;
     }
 
 
