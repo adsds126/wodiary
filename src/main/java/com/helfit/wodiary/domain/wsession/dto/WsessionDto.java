@@ -1,5 +1,6 @@
 package com.helfit.wodiary.domain.wsession.dto;
 
+import com.helfit.wodiary.domain.exercise.entity.Exercise;
 import com.helfit.wodiary.domain.exercise.entity.ExerciseType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,5 +29,26 @@ public class WsessionDto {
     public static class Response {
         private LocalDate date;
         private Long userId;
+        private List<ExerciseDetails> exercises;
     }
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class ExerciseDetails {
+        private Long id;
+        private ExerciseType type;
+        private List<SetDetails> sets;
+    }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class SetDetails {
+        private Long id;
+        private int weight;
+        private int repetitions;
+    }
+
 }
