@@ -26,7 +26,7 @@ public class Exercise {
     @Enumerated(EnumType.STRING)
     private ExerciseType type;
 
-    @OneToMany(mappedBy = "exercise", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "exercise", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ExerciseSet> sets;
 }
 

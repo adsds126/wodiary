@@ -5,6 +5,7 @@ import com.helfit.wodiary.domain.exercise.entity.Exercise;
 import com.helfit.wodiary.domain.exercise.entity.ExerciseSet;
 import com.helfit.wodiary.domain.exercise.repository.ExerciseRepository;
 import com.helfit.wodiary.domain.exercise.repository.ExerciseSetRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,5 +29,28 @@ public class ExerciseService {
         exerciseSet.setWeight(exerciseSetDto.getWeight());
         exerciseSet.setReps(exerciseSetDto.getReps());
         return exerciseSetRepository.save(exerciseSet);
+    }
+
+    @Transactional
+    public ExerciseSetDto.Response updateExerciseSet(Long setId, ExerciseSetDto.UpdateSets updateDto) {
+        ExerciseSet exerciseSet = exerciseSetRepository.findById(setId)
+                .orElseThrow(EntityNotFoundException::new);
+
+        if (updateDto.getWeight() != null) {
+            exerciseSet.setWeight(updateDto.getWeight());
+        }
+        if (updateDto.getReps() != null) {
+            exerciseSet.setReps(updateDto.getReps());
+        }
+        exerciseSetRepository.save(exerciseSet);
+        return new ExerciseSetDto.Response(exerciseSet.getSetId(), exerciseSet.getWeight(), exerciseSet.getReps());
+    }
+
+    @Transactional
+    public void deleteExercise(Long exerciseId) {
+        Exercise exercise = exerciseRepository.findById(exerciseId)
+                .orElseThrow(() -> new EntityNotFoundException("Exercise not found with id: " + exerciseId));
+
+        exerciseRepository.delete(exercise);
     }
 }

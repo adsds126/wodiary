@@ -15,4 +15,21 @@ public class ExerciseSetDto {
         private int weight;
         private int reps;
     }
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class UpdateSets {
+        private Integer weight;
+        private Integer reps;
+    }
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class Response {
+        private Long setId;
+        private Integer weight;
+        private Integer reps;
+    }
 }
