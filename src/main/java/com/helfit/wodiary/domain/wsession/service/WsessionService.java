@@ -1,11 +1,13 @@
 package com.helfit.wodiary.domain.wsession.service;
 
 import com.helfit.wodiary.domain.exercise.entity.Exercise;
+import com.helfit.wodiary.domain.exercise.entity.ExerciseSet;
 import com.helfit.wodiary.domain.user.entity.User;
 import com.helfit.wodiary.domain.user.repository.UserRepository;
 import com.helfit.wodiary.domain.wsession.dto.WsessionDto;
 import com.helfit.wodiary.domain.wsession.entity.Wsession;
 import com.helfit.wodiary.domain.wsession.repository.WsessionRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -92,4 +94,53 @@ public class WsessionService {
         return new WsessionDto.Response(session.getWsessionId(), session.getUser().getId(), exercises);
     }
 
+    @Transactional
+    public void deleteWsession(LocalDate wsessionId) {
+        Wsession wsession = wsessionRepository.findById(wsessionId)
+                .orElseThrow(() -> new EntityNotFoundException("Wsession not found with date: " + wsessionId));
+        wsessionRepository.delete(wsession);
+    }
+    @Transactional
+    public WsessionDto.Response copyWsession(LocalDate sourceDate, LocalDate targetDate) {
+        Wsession sourceSession = wsessionRepository.findById(sourceDate)
+                .orElseThrow(() -> new EntityNotFoundException("Source Wsession not found"));
+
+        Wsession newSession = new Wsession();
+        newSession.setWsessionId(targetDate);
+        newSession.setUser(sourceSession.getUser());  // Assuming the same user
+
+        List<Exercise> copiedExercises = sourceSession.getExercises().stream()
+                .map(exercise -> {
+                    Exercise newExercise = new Exercise();
+                    newExercise.setType(exercise.getType());
+                    newExercise.setWsession(newSession);
+                    newExercise.setSets(exercise.getSets().stream().map(set -> {
+                        ExerciseSet newSet = new ExerciseSet();
+                        newSet.setWeight(set.getWeight());
+                        newSet.setReps(set.getReps());
+                        newSet.setExercise(newExercise);
+                        return newSet;
+                    }).collect(Collectors.toList()));
+                    return newExercise;
+                }).collect(Collectors.toList());
+
+        newSession.setExercises(copiedExercises);
+        wsessionRepository.save(newSession);
+
+        return convertToResponseDto(newSession);
+    }
+
+    private WsessionDto.Response convertToResponseDto(Wsession session) {
+        List<WsessionDto.ExerciseDetails> exerciseDetails = session.getExercises().stream()
+                .map(exercise -> new WsessionDto.ExerciseDetails(
+                        exercise.getExerciseId(),
+                        exercise.getType(),
+                        exercise.getSets().stream()
+                                .map(set -> new WsessionDto.SetDetails(set.getExercise().getExerciseId(), set.getWeight(), set.getReps()))
+                                .collect(Collectors.toList())
+                ))
+                .collect(Collectors.toList());
+
+        return new WsessionDto.Response(session.getWsessionId(), session.getUser().getId(), exerciseDetails);
+    }
 }

@@ -50,5 +50,12 @@ public class WsessionDto {
         private int weight;
         private int repetitions;
     }
-
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public class WsessionCopyDto {
+        private LocalDate sourceDate;
+        private LocalDate targetDate;
+    }
 }
