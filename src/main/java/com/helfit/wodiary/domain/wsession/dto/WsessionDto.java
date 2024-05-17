@@ -54,7 +54,7 @@ public class WsessionDto {
     @Setter
     @AllArgsConstructor
     @NoArgsConstructor
-    public class WsessionCopyDto {
+    public static class WsessionCopyDto {
         private LocalDate sourceDate;
         private LocalDate targetDate;
     }
