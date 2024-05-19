@@ -41,8 +41,19 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/v1/users/login", "/api/v1/users/signup").permitAll()
+                        .requestMatchers("/api/v1/users/login", "/api/v1/users/signup",
+                                "/login", "/signup", "/css/**", "/h2-console/**", "/js/**", "/images/**").permitAll()
                         .anyRequest().authenticated()
+                )
+                .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.sameOrigin()))
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .defaultSuccessUrl("/home", true)
+                        .failureUrl("/login?error=true")
+                )
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/login")
                 )
                 .exceptionHandling(exceptionHandling -> exceptionHandling
                         .authenticationEntryPoint(jwtAuthenticationEntryPoint)
@@ -53,16 +64,5 @@ public class SecurityConfig {
 
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
-//        http
-//                // CSRF 설정 비활성화
-//                .csrf(csrf -> csrf.disable())
-//                // 요청에 대한 권한 설정
-//                .authorizeHttpRequests(auth -> auth
-//                        // 회원가입 경로는 인증 없이 접근 허용
-//                        .requestMatchers("/api/v1/**").permitAll()
-//                        // 기타 모든 요청은 인증 필요
-//                        .anyRequest().authenticated());
-//
-//        return http.build();
     }
 }
