@@ -17,6 +17,14 @@ public class UserDto {
         private String password;
         private String email;
     }
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class Login {
+        private String username;
+        private String password;
+    }
 
 
 }

@@ -10,25 +10,31 @@
         <img th:src="@{/images/logo.png}" alt="Logo">
     </div>
     <h2>Login</h2>
-<form th:action="@{/login}" method="post">
+    <form th:action="@{/api/v1/users/login}" method="post">
+        <div>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+        </div>
+        <div>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <div>
+            <button type="submit">Login</button>
+        </div>
+    </form>
     <div>
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
-    </div>
-    <div>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-    </div>
-    <div>
-        <button type="submit">Login</button>
-    </div>
-    <div>
-        <a th:href="@{/signup}">
+        <a th:href="@{/signup}" th:onclick="'event.preventDefault(); document.getElementById('signupForm').submit();'">
             <button type="button">Sign Up</button>
         </a>
     </div>
-</form>
+    <!-- Hidden form for signup -->
+    <form id="signupForm" th:action="@{/api/v1/users/signup}" method="post" style="display: none;">
+        <input type="hidden" name="username" value="newuser">
+        <input type="hidden" name="password" value="newpassword">
+        <input type="hidden" name="email" value="newemail@example.com">
+    </form>
+</div>
 </body>
 </html>
-
 

@@ -42,14 +42,15 @@ public class SecurityConfig {
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/v1/users/login", "/api/v1/users/signup",
-                                "/login", "/signup", "/css/**", "/h2-console/**", "/js/**", "/images/**").permitAll()
+                                "/login", "/signup", "/css/**", "/h2-console/**", "/js/**", "/images/**", "/home").permitAll()
                         .anyRequest().authenticated()
                 )
                 .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.sameOrigin()))
                 .formLogin(form -> form
-                        .loginPage("/login")
+                        .loginPage("/api/v1/users/login")
+                        .loginProcessingUrl("/api/v1/users/login")
                         .defaultSuccessUrl("/home", true)
-                        .failureUrl("/login?error=true")
+                        .failureUrl("/api/v1/users/login?error=true")
                 )
                 .logout(logout -> logout
                         .logoutUrl("/logout")

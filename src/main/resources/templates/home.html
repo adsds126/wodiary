@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Home</title>
+  <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<div class="container">
+  <div class="calendar-controls">
+    <a th:href="@{/home?year={year}&month={month}(year=${currentYear}, month=${currentMonth - 1})}">
+      &lt;
+    </a>
+    <span th:text="${currentYear} + '년 ' + ${currentMonth} + '월'"></span>
+    <a th:href="@{/home?year={year}&month={month}(year=${currentYear}, month=${currentMonth + 1})}">
+      &gt;
+    </a>
+  </div>
+  <div class="calendar">
+    <div class="day-names">
+      <div>일</div>
+      <div>월</div>
+      <div>화</div>
+      <div>수</div>
+      <div>목</div>
+      <div>금</div>
+      <div>토</div>
+    </div>
+    <div class="days">
+      <div th:each="emptyDay : ${emptyDays}">
+        <div class="day empty"></div>
+      </div>
+      <div th:each="day : ${days}">
+        <a th:href="@{/wsession/{date}(date=${currentYear}-${paddedMonth}-${day})}">
+          <div class="day" th:text="${day}"></div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
+
+
