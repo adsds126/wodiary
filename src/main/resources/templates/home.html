@@ -30,14 +30,36 @@
         <div class="day empty"></div>
       </div>
       <div th:each="day : ${days}">
-        <a th:href="@{/wsession/{date}(date=${currentYear}-${paddedMonth}-${day})}">
+        <a th:href="@{'/wsession/' + ${currentYear} + '-' + ${paddedMonth} + '-' + ${day}}">
           <div class="day" th:text="${day}"></div>
         </a>
       </div>
     </div>
   </div>
 </div>
+
+<script>
+  function fetchSession(date) {
+    var token = localStorage.getItem('token');
+    fetch(`/api/v1/wsession/${date}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + token,
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => {
+      if (response.ok) {
+        window.location.href = `/wsession/${date}`;
+      } else if (response.status === 401) {
+        alert('Unauthorized. Please login again.');
+        window.location.href = '/login';
+      } else {
+        alert('Error fetching session.');
+      }
+    })
+    .catch(error => console.error('Error:', error));
+  }
+</script>
 </body>
 </html>
-
-

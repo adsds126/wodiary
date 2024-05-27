@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>View Session</title>
+  <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<div class="container">
+  <h1 th:text="${date} + ' 운동 세션'"></h1>
+  <div th:if="${session != null}">
+    <div th:each="exercise : ${session.exercises}">
+      <h2 th:text="${exercise.type}"></h2>
+      <div th:each="set : ${exercise.sets}">
+        <p th:text="'세트 ' + ${set.number} + ': ' + ${set.weight} + 'kg x ' + ${set.repetitions} + '회'"></p>
+      </div>
+    </div>
+  </div>
+  <div th:if="${session == null}">
+    <p>운동 세션이 없습니다.</p>
+    <a th:href="@{/wsession/addSet?date=${date}}">세트 추가하기</a>
+  </div>
+  <a th:href="@{/home}">뒤로가기</a>
+</div>
+</body>
+</html>

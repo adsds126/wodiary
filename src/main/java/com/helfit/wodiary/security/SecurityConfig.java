@@ -42,7 +42,8 @@ public class SecurityConfig {
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/v1/users/login", "/api/v1/users/signup",
-                                "/login", "/signup", "/css/**", "/h2-console/**", "/js/**", "/images/**", "/home").permitAll()
+                                "/login", "/signup", "/css/**", "/h2-console/**", "/js/**", "/images/**", "/home","/wsession").permitAll()
+                        .requestMatchers("/home", "/wsession/**").authenticated()
                         .anyRequest().authenticated()
                 )
                 .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.sameOrigin()))

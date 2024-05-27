@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Add Set</title>
+  <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<div class="container">
+  <h1 th:text="${date} + ' 세트 추가'"></h1>
+  <form action="#" method="post">
+    <label for="exerciseType">운동 종목</label>
+    <select id="exerciseType" name="exerciseType">
+      <option value="SQUATS">Squats</option>
+      <option value="BENCH_PRESS">Bench Press</option>
+      <option value="DEAD_LIFT">Dead Lift</option>
+      <option value="OVERHEAD_PRESS">Overhead Press</option>
+      <option value="BARBELL_ROW">Barbell Row</option>
+    </select>
+    <label for="weight">무게 (kg)</label>
+    <input type="number" id="weight" name="weight" required>
+    <label for="reps">반복 횟수</label>
+    <input type="number" id="reps" name="reps" required>
+    <button type="submit">세트 추가</button>
+  </form>
+  <a th:href="@{/home}">뒤로가기</a>
+</div>
+</body>
+</html>
+
