@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -74,10 +75,12 @@ public class WsessionService {
         return new WsessionDto.Response(session.getWsessionId(), user.getId(), exerciseDetails);
     }
     public WsessionDto.Response getSession(LocalDate date) {
-        Wsession session = wsessionRepository.findById(date)
-                .orElseThrow(() -> new RuntimeException("Session not found"));
+        Optional<Wsession> sessionOpt = wsessionRepository.findById(date);
 
-        return convertToDto(session);
+        if (!sessionOpt.isPresent()) {
+            return null;
+        }
+        return convertToDto(sessionOpt.get());
     }
 
     private WsessionDto.Response convertToDto(Wsession session) {

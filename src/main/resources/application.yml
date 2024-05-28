@@ -19,13 +19,17 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.H2Dialect
+  server:
+    error:
+      include-message: always
+      include-binding-errors: always
+      include-exception: true
+      include-stacktrace: always
   logging:
     level:
       org.hibernate.SQL: DEBUG
       org.hibernate.type.descriptor.sql: TRACE
       org.springframework: DEBUG
-  jwt:
-    secret: ${JWT_SECRET}
-    expiration: 3600000
-
+      org.springframework.web: DEBUG
+      org.thymeleaf: TRACE
     spring:

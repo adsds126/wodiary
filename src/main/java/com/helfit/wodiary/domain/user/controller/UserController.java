@@ -1,12 +1,12 @@
 package com.helfit.wodiary.domain.user.controller;
 
-import com.helfit.wodiary.domain.user.dto.JwtRequest;
-import com.helfit.wodiary.domain.user.dto.JwtResponse;
+//import com.helfit.wodiary.domain.user.dto.JwtRequest;
+//import com.helfit.wodiary.domain.user.dto.JwtResponse;
 import com.helfit.wodiary.domain.user.dto.UserDto;
 import com.helfit.wodiary.domain.user.entity.User;
 //import com.helfit.wodiary.domain.user.mapper.UserMapper;
 import com.helfit.wodiary.domain.user.service.UserService;
-import com.helfit.wodiary.domain.user.util.JwtTokenUtil;
+//import com.helfit.wodiary.domain.user.util.JwtTokenUtil;
 import com.helfit.wodiary.exception.BusinessLogicException;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -32,9 +32,9 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final UserService userService;
     //private final UserMapper userMapper;
-    private final JwtTokenUtil jwtTokenUtil;
-    private final AuthenticationManager authenticationManager;
-    private final UserDetailsService jwtUserDetailsService;
+    //private final JwtTokenUtil jwtTokenUtil;
+//    private final AuthenticationManager authenticationManager;
+//    private final UserDetailsService jwtUserDetailsService;
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @GetMapping("/signup")
@@ -52,18 +52,18 @@ public class UserController {
             return "signup";
         }
     }
-    @PostMapping("/login")
-    public String login(@ModelAttribute UserDto.Login loginDto, Model model) {
-        try {
-            UsernamePasswordAuthenticationToken authToken =
-                    new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword());
-            Authentication authentication = authenticationManager.authenticate(authToken);
-            return "redirect:/home";
-        } catch (AuthenticationException e) {
-            model.addAttribute("error", "Invalid username or password.");
-            return "login";
-        }
-    }
+//    @PostMapping("/login")
+//    public String login(@ModelAttribute UserDto.Login loginDto, Model model) {
+//        try {
+//            UsernamePasswordAuthenticationToken authToken =
+//                    new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword());
+//            Authentication authentication = authenticationManager.authenticate(authToken);
+//            return "redirect:/home";
+//        } catch (AuthenticationException e) {
+//            model.addAttribute("error", "Invalid username or password.");
+//            return "login";
+//        }
+//    }
 //    @PostMapping("/signup")
 //    public ResponseEntity<?> signup(@RequestBody UserDto.Signup requestBody) {
 //        logger.info("Signup attempt with email: {}, username: {}", requestBody.getEmail(), requestBody.getUsername());
@@ -87,14 +87,14 @@ public class UserController {
 //        return ResponseEntity.ok(new JwtResponse(token));
 //    }
 
-    private void authenticate(String username, String password) throws Exception {
-        try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-        } catch (DisabledException e) {
-            throw new Exception("USER_DISABLED", e);
-        } catch (BadCredentialsException e) {
-            throw new Exception("INVALID_CREDENTIALS", e);
-        }
-    }
+//    private void authenticate(String username, String password) throws Exception {
+//        try {
+//            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+//        } catch (DisabledException e) {
+//            throw new Exception("USER_DISABLED", e);
+//        } catch (BadCredentialsException e) {
+//            throw new Exception("INVALID_CREDENTIALS", e);
+//        }
+//    }
 
 }

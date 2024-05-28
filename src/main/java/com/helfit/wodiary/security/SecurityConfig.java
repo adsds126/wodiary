@@ -1,8 +1,7 @@
 package com.helfit.wodiary.security;
 
-import com.helfit.wodiary.domain.user.entrypoint.JwtAuthenticationEntryPoint;
-import com.helfit.wodiary.domain.user.filter.JwtRequestFilter;
-import jakarta.servlet.http.HttpServletRequest;
+//import com.helfit.wodiary.domain.user.entrypoint.JwtAuthenticationEntryPoint;
+//import com.helfit.wodiary.domain.user.filter.JwtRequestFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,16 +17,17 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig {
-    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-    private final JwtRequestFilter jwtRequestFilter;
-    private final UserDetailsService jwtUserDetailsService;
+public class SecurityConfig{
+//    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+//    private final JwtRequestFilter jwtRequestFilter;
+//    private final UserDetailsService jwtUserDetailsService;
 
-    public SecurityConfig(JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint, JwtRequestFilter jwtRequestFilter, UserDetailsService jwtUserDetailsService) {
-        this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
-        this.jwtRequestFilter = jwtRequestFilter;
-        this.jwtUserDetailsService = jwtUserDetailsService;
-    }
+
+    //    public SecurityConfig(JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint, JwtRequestFilter jwtRequestFilter, UserDetailsService jwtUserDetailsService) {
+//        this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
+//        this.jwtRequestFilter = jwtRequestFilter;
+//        this.jwtUserDetailsService = jwtUserDetailsService;
+//    }
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
@@ -47,24 +47,23 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
                 .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.sameOrigin()))
-                .formLogin(form -> form
-                        .loginPage("/api/v1/users/login")
-                        .loginProcessingUrl("/api/v1/users/login")
-                        .defaultSuccessUrl("/home", true)
-                        .failureUrl("/api/v1/users/login?error=true")
+                .formLogin(formLogin ->
+                        formLogin
+                                .loginPage("/login")
+                                .loginProcessingUrl("/perform_login") // 로그인 처리를 위한 URL 변경
+                                .defaultSuccessUrl("/home", true)
+                                .permitAll()
                 )
-                .logout(logout -> logout
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login")
-                )
-                .exceptionHandling(exceptionHandling -> exceptionHandling
-                        .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                .logout(logout ->
+                        logout
+                                .logoutUrl("/logout")
+                                .logoutSuccessUrl("/login")
+                                .permitAll()
                 )
                 .sessionManagement(sessionManagement -> sessionManagement
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 );
-
-        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+//        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 }

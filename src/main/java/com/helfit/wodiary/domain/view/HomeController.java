@@ -52,19 +52,23 @@ public class HomeController {
 
         return "home";
     }
-    @GetMapping("/{date}")
+
+    @GetMapping("/wsession/{date}")
     public String getSessionView(@PathVariable String date, Model model) {
         try {
             LocalDate localDate = LocalDate.parse(date);
             WsessionDto.Response sessionResponse = wsessionService.getSession(localDate);
 
             if (sessionResponse == null) {
+                System.out.println("Session response is null, rendering addSet");
                 model.addAttribute("date", localDate);
                 return "addSet";
+            }else {
+                System.out.println("Session response is not null, rendering viewSession");
+                model.addAttribute("date", localDate);
+                model.addAttribute("session", sessionResponse);
+                return "viewSession";
             }
-
-            model.addAttribute("session", sessionResponse);
-            return "viewSession";
         } catch (DateTimeParseException e) {
             model.addAttribute("error", "Invalid date format");
             return "error";
