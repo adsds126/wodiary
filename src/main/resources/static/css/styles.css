@@ -70,35 +70,52 @@ form input {
     padding: 8px;
     box-sizing: border-box;
 }
-
-form button {
+/* 버튼 스타일 통일 시작 */
+button {
     width: 100%;
     padding: 10px;
-    background: #007BFF;
     border: none;
     color: white;
     cursor: pointer;
     border-radius: 5px;
 }
 
-form button:hover {
+button.add-set {
+    background: #007BFF;
+}
+
+button.submit {
+    background: #007BFF;
+}
+
+button.add-set:hover {
     background: #0056b3;
 }
 
-div a button {
-    width: 100%;
-    padding: 10px;
+button.back {
     background: #28a745;
-    border: none;
-    color: white;
-    cursor: pointer;
-    border-radius: 5px;
-    margin-top: 10px;
 }
 
-div a button:hover {
+button.back:hover {
     background: #218838;
 }
+
+button.login {
+    background: #007BFF;
+}
+
+button.login:hover {
+    background: #0056b3;
+}
+
+button.signup {
+    background: #28a745;
+}
+
+div a button {
+    margin-top: 10px;
+}
+/* 추가된 스타일 끝 */
 
 a {
     display: block;

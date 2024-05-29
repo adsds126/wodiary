@@ -6,7 +6,7 @@
 </head>
 <body>
 <div class="container">
-  <h1 th:text="${date} + ' 세트 추가'"></h1>
+  <h1 th:text="${date}"></h1>
   <form action="#" method="post">
     <label for="exerciseType">운동 종목</label>
     <select id="exerciseType" name="exerciseType">
@@ -20,9 +20,9 @@
     <input type="number" id="weight" name="weight" required>
     <label for="reps">반복 횟수</label>
     <input type="number" id="reps" name="reps" required>
-    <button type="submit">세트 추가</button>
+    <button type="submit" class="add-set">세트 추가</button>
   </form>
-  <a th:href="@{/home}">뒤로가기</a>
+  <a th:href="@{/home}"><button type="button" class="back">뒤로가기</button></a>
 </div>
 </body>
 </html>

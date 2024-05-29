@@ -72,7 +72,7 @@ public class WsessionService {
                 ))
                 .collect(Collectors.toList());
 
-        return new WsessionDto.Response(session.getWsessionId(), user.getId(), exerciseDetails);
+        return new WsessionDto.Response(session.getWsessionId(), exerciseDetails);
     }
     public WsessionDto.Response getSession(LocalDate date) {
         Optional<Wsession> sessionOpt = wsessionRepository.findById(date);
@@ -94,7 +94,7 @@ public class WsessionService {
                 ))
                 .collect(Collectors.toList());
 
-        return new WsessionDto.Response(session.getWsessionId(), session.getUser().getId(), exercises);
+        return new WsessionDto.Response(session.getWsessionId(), exercises);
     }
 
     @Transactional
@@ -144,6 +144,6 @@ public class WsessionService {
                 ))
                 .collect(Collectors.toList());
 
-        return new WsessionDto.Response(session.getWsessionId(), session.getUser().getId(), exerciseDetails);
+        return new WsessionDto.Response(session.getWsessionId(), exerciseDetails);
     }
 }

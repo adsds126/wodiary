@@ -1,5 +1,6 @@
 package com.helfit.wodiary.domain.wsession.controller;
 
+import com.helfit.wodiary.domain.user.entity.UserPrincipal;
 import com.helfit.wodiary.domain.wsession.dto.WsessionDto;
 import com.helfit.wodiary.domain.wsession.entity.Wsession;
 import com.helfit.wodiary.domain.wsession.service.WsessionService;
@@ -7,6 +8,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,8 +23,9 @@ public class WsessionController {
     private WsessionService wsessionService;
 
     @PostMapping
-    public ResponseEntity<?> createSession(@RequestBody WsessionDto.Add sessionDto) {
+    public ResponseEntity<?> createSession(@RequestBody WsessionDto.Add sessionDto, @AuthenticationPrincipal UserPrincipal principal) {
         try {
+            sessionDto.setUserId(principal.getId());
             WsessionDto.Response sessionResponse = wsessionService.createSession(sessionDto);
             return ResponseEntity.ok(sessionResponse);
         } catch (Exception e) {

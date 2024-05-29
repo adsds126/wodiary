@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Add Exercise</title>
+  <link rel="stylesheet" th:href="@{/css/styles.css}">
+  <style>
+        .multi-select-container {
+            display: flex;
+            flex-direction: column;
+        }
+        .multi-select-item {
+            margin: 5px 0;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            cursor: pointer;
+            user-select: none;
+        }
+        .multi-select-item.selected {
+            background-color: #d3d3d3;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+  <h1 th:text="${date} + ' 운동 세션 추가'"></h1>
+  <form id="addExerciseForm">
+    <label for="date">날짜</label>
+    <input type="date" id="date" name="date" th:value="${date}" required>
+
+    <label for="exerciseTypes">운동 종목</label>
+    <div id="exerciseTypesContainer" class="multi-select-container">
+      <div class="multi-select-item" data-value="SQUATS">Squats</div>
+      <div class="multi-select-item" data-value="BENCH_PRESS">Bench Press</div>
+      <div class="multi-select-item" data-value="DEAD_LIFT">Dead Lift</div>
+      <div class="multi-select-item" data-value="OVERHEAD_PRESS">Overhead Press</div>
+      <div class="multi-select-item" data-value="BARBELL_ROW">Barbell Row</div>
+    </div>
+
+    <button type="submit">세션 추가</button>
+  </form>
+  <a th:href="@{/home}">뒤로가기</a>
+</div>
+
+<script>
+    document.querySelectorAll('.multi-select-item').forEach(item => {
+        item.addEventListener('click', () => {
+            item.classList.toggle('selected');
+        });
+    });
+
+    document.getElementById('addExerciseForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const date = document.getElementById('date').value;
+        const exerciseTypes = Array.from(document.querySelectorAll('.multi-select-item.selected')).map(item => item.dataset.value);
+
+        fetch('/api/v1/wsession', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                date: date,
+                exerciseTypes: exerciseTypes
+            })
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('Failed to create session');
+            }
+        })
+        .then(data => {
+            alert('운동 세션이 추가되었습니다!');
+            window.location.href = '/home';
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('운동 세션 추가 중 오류가 발생했습니다.');
+        });
+    });
+</script>
+</body>
+</html>

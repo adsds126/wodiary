@@ -13,13 +13,81 @@
       <div th:each="set : ${exercise.sets}">
         <p th:text="'세트 ' + ${set.number} + ': ' + ${set.weight} + 'kg x ' + ${set.repetitions} + '회'"></p>
       </div>
+      <!-- 세트 추가 버튼 -->
+      <button type="button" onclick="addSet(${exercise.id})">세트 추가</button>
     </div>
   </div>
   <div th:if="${session == null}">
     <p>운동 세션이 없습니다.</p>
-    <a th:href="@{/wsession/addSet?date=${date}}">세트 추가하기</a>
+    <a th:href="@{/wsession/addSet?date=${date}}"><button type="button" class="add-set">세트 추가하기</button></a>
   </div>
-  <a th:href="@{/home}">뒤로가기</a>
+  <a th:href="@{/home}"><button type="button" class="back">뒤로가기</button></a>
 </div>
+
+<script>
+  function addSet(exerciseId) {
+    // 세트 추가를 위한 폼 생성
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = `/api/v1/wsession/${exerciseId}/sets`;
+
+    const weightLabel = document.createElement('label');
+    weightLabel.textContent = '무게 (kg)';
+    form.appendChild(weightLabel);
+
+    const weightInput = document.createElement('input');
+    weightInput.type = 'number';
+    weightInput.name = 'weight';
+    weightInput.required = true;
+    form.appendChild(weightInput);
+
+    const repsLabel = document.createElement('label');
+    repsLabel.textContent = '반복 횟수';
+    form.appendChild(repsLabel);
+
+    const repsInput = document.createElement('input');
+    repsInput.type = 'number';
+    repsInput.name = 'reps';
+    repsInput.required = true;
+    form.appendChild(repsInput);
+
+    const submitButton = document.createElement('button');
+    submitButton.type = 'submit';
+    submitButton.textContent = '세트 추가';
+    form.appendChild(submitButton);
+
+    // 세트 추가 폼을 다이얼로그로 표시
+    const dialog = document.createElement('dialog');
+    dialog.appendChild(form);
+    document.body.appendChild(dialog);
+    dialog.showModal();
+
+    form.addEventListener('submit', function(event) {
+      event.preventDefault();
+      const formData = new FormData(form);
+
+      fetch(`/api/v1/wsession/${exerciseId}/sets`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          weight: formData.get('weight'),
+          reps: formData.get('reps')
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        alert('세트가 추가되었습니다.');
+        dialog.close();
+        window.location.reload();
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('세트 추가 중 오류가 발생했습니다.');
+      });
+    });
+  }
+</script>
 </body>
 </html>

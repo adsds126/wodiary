@@ -28,8 +28,15 @@ public class WsessionDto {
     @NoArgsConstructor
     public static class Response {
         private LocalDate date;
-        private Long userId;
         private List<ExerciseDetails> exercises;
+    }
+    @Getter
+    @Setter
+    public static class ExerciseSetDto {
+        private Long id;
+        private int weight;
+        private int reps;
+        private int number; // 세트 번호
     }
     @Getter
     @Setter

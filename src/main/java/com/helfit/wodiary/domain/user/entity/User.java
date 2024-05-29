@@ -1,8 +1,13 @@
 package com.helfit.wodiary.domain.user.entity;
 
+import com.helfit.wodiary.domain.authority.entity.Authority;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+
+import java.util.Collection;
+import java.util.Set;
 
 @Entity
 @Table(name = "app_user")
@@ -19,4 +24,6 @@ public class User {
     private String password;
     @Column(name = "EMAIL", nullable = false)
     private String email;
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<Authority> authorities;
 }
