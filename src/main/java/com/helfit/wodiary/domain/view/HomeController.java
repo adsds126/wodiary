@@ -64,14 +64,11 @@ public class HomeController {
             WsessionDto.Response sessionResponse = wsessionService.getSession(localDate);
 
             if (sessionResponse == null) {
-                System.out.println("Session response is null, rendering addExercise");
                 model.addAttribute("date", localDate);
                 return "addExercise";
             } else {
-                System.out.println("Session response is not null, rendering viewSession");
-                System.out.println(sessionResponse); // 세션 정보 출력
                 model.addAttribute("date", localDate);
-                model.addAttribute("session", sessionResponse);
+                model.addAttribute("wsession", sessionResponse);
                 return "viewSession";
             }
         } catch (DateTimeParseException e) {
@@ -82,5 +79,11 @@ public class HomeController {
             return "error";
         }
     }
+//    @GetMapping("/wsession/addSet")
+//    public String addSetPage(@RequestParam("date") String date, @RequestParam("exerciseId") Long exerciseId, Model model) {
+//        model.addAttribute("date", date);
+//        model.addAttribute("exerciseId", exerciseId);
+//        return "addSet";
+//    }
 
 }

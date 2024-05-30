@@ -8,6 +8,6 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 public interface WsessionRepository extends JpaRepository<Wsession, LocalDate> {
-    @EntityGraph(attributePaths = {"exercises.sets"})
+    @EntityGraph(attributePaths = {"user", "exercises.sets"})
     Optional<Wsession> findById(LocalDate id);
 }

@@ -29,6 +29,13 @@ public class WsessionDto {
     public static class Response {
         private LocalDate date;
         private List<ExerciseDetails> exercises;
+        @Override
+        public String toString() {
+            return "Response{" +
+                    "date=" + date +
+                    ", exercises=" + exercises +
+                    '}';
+        }
     }
     @Getter
     @Setter
@@ -37,6 +44,7 @@ public class WsessionDto {
         private int weight;
         private int reps;
         private int number; // 세트 번호
+
     }
     @Getter
     @Setter
@@ -46,6 +54,14 @@ public class WsessionDto {
         private Long id;
         private ExerciseType type;
         private List<SetDetails> sets;
+        @Override
+        public String toString() {
+            return "ExerciseDetails{" +
+                    "id=" + id +
+                    ", type=" + type +
+                    ", sets=" + sets +
+                    '}';
+        }
     }
 
     @Getter
@@ -55,7 +71,15 @@ public class WsessionDto {
     public static class SetDetails {
         private Long id;
         private int weight;
-        private int repetitions;
+        private int reps;
+        @Override
+        public String toString() {
+            return "SetDetails{" +
+                    "id=" + id +
+                    ", weight=" + weight +
+                    ", reps=" + reps +
+                    '}';
+        }
     }
     @Getter
     @Setter

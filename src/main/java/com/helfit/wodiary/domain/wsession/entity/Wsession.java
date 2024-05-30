@@ -18,7 +18,8 @@ public class Wsession {
     @Column(columnDefinition = "DATE")
     private LocalDate wsessionId;  // 날짜 형식의 ID, 예: "20240503"
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
     private User user;
 
     @OneToMany(mappedBy = "wsession", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

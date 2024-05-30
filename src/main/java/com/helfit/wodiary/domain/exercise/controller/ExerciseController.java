@@ -13,6 +13,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("api/v1/exercises")
 @RequiredArgsConstructor
@@ -26,15 +29,34 @@ public class ExerciseController {
     @Autowired
     private ExerciseService exerciseService;
 
+//    @PostMapping("/{exerciseId}/sets")
+//    public ResponseEntity<?> addExerciseSet(@PathVariable Long exerciseId, @RequestBody ExerciseSetDto.AddSets exerciseSetDto) {
+//        try {
+//            System.out.println("Received request to add set for exerciseId: " + exerciseId);
+//            ExerciseSet exerciseSet = exerciseService.addExerciseSet(exerciseId, exerciseSetDto);
+//            return ResponseEntity.ok("세트추가가 완료되었습니다.");
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error adding exercise set: " + e.getMessage());
+//        }
+//    }
     @PostMapping("/{exerciseId}/sets")
     public ResponseEntity<?> addExerciseSet(@PathVariable Long exerciseId, @RequestBody ExerciseSetDto.AddSets exerciseSetDto) {
         try {
+            System.out.println("Received request to add set for exerciseId: " + exerciseId);
             ExerciseSet exerciseSet = exerciseService.addExerciseSet(exerciseId, exerciseSetDto);
-            return ResponseEntity.ok("세트추가가 완료되었습니다.");
+
+            // JSON 응답 생성
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "세트추가가 완료되었습니다.");
+
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error adding exercise set: " + e.getMessage());
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("error", "Error adding exercise set: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
         }
     }
+
 
     @PatchMapping("/sets/{setId}")
     public ResponseEntity<ExerciseSetDto.Response> updateExerciseSet(@PathVariable Long setId, @RequestBody ExerciseSetDto.UpdateSets updateDto) {
@@ -47,6 +69,7 @@ public class ExerciseController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
 
     @DeleteMapping("/{exerciseId}")
     public ResponseEntity<?> deleteExercise(@PathVariable Long exerciseId) {

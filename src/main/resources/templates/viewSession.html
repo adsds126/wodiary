@@ -7,29 +7,30 @@
 <body>
 <div class="container">
   <h1 th:text="${date} + ' 운동 세션'"></h1>
-  <div th:if="${session != null}">
-    <div th:each="exercise : ${session.exercises}">
+  <div th:if="${wsession != null}">
+    <div th:each="exercise : ${wsession.exercises}">
       <h2 th:text="${exercise.type}"></h2>
       <div th:each="set : ${exercise.sets}">
-        <p th:text="'세트 ' + ${set.number} + ': ' + ${set.weight} + 'kg x ' + ${set.repetitions} + '회'"></p>
+        <p th:text="'세트 ' + ${set.id} + ': ' + ${set.weight} + 'kg x ' + ${set.reps} + '회'"></p>
       </div>
       <!-- 세트 추가 버튼 -->
-      <button type="button" onclick="addSet(${exercise.id})">세트 추가</button>
+      <button type="button" th:onclick="'addSet(' + ${exercise.id} + ')'">세트 추가</button>
     </div>
   </div>
   <div th:if="${session == null}">
     <p>운동 세션이 없습니다.</p>
-    <a th:href="@{/wsession/addSet?date=${date}}"><button type="button" class="add-set">세트 추가하기</button></a>
+    <a th:href="@{/api/v1/exercises/{exerciseID}/addSet?date=${date}}"><button type="button" class="add-set">세트 추가하기</button></a>
   </div>
   <a th:href="@{/home}"><button type="button" class="back">뒤로가기</button></a>
 </div>
 
 <script>
   function addSet(exerciseId) {
+    console.log('addSet called with exerciseId:', exerciseId); // 디버그 정보 출력
     // 세트 추가를 위한 폼 생성
     const form = document.createElement('form');
     form.method = 'POST';
-    form.action = `/api/v1/wsession/${exerciseId}/sets`;
+    form.action = `/api/v1/exercises/${exerciseId}/sets`;
 
     const weightLabel = document.createElement('label');
     weightLabel.textContent = '무게 (kg)';
@@ -66,7 +67,7 @@
       event.preventDefault();
       const formData = new FormData(form);
 
-      fetch(`/api/v1/wsession/${exerciseId}/sets`, {
+      fetch(`/api/v1/exercises/${exerciseId}/sets`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -76,11 +77,17 @@
           reps: formData.get('reps')
         })
       })
-      .then(response => response.json())
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error('Failed to add set');
+        }
+      })
       .then(data => {
         alert('세트가 추가되었습니다.');
         dialog.close();
-        window.location.reload();
+        window.location.reload(); // 페이지 새로고침
       })
       .catch(error => {
         console.error('Error:', error);

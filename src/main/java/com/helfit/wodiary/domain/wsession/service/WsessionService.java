@@ -8,6 +8,7 @@ import com.helfit.wodiary.domain.wsession.dto.WsessionDto;
 import com.helfit.wodiary.domain.wsession.entity.Wsession;
 import com.helfit.wodiary.domain.wsession.repository.WsessionRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
