@@ -23,26 +23,48 @@
 </head>
 <body>
 <div class="container">
-  <h1 th:text="${date} + ' 운동 세션 추가'"></h1>
+  <h2 th:text="'운동 세션 추가'"></h2>
   <form id="addExerciseForm">
     <label for="date">날짜</label>
     <input type="date" id="date" name="date" th:value="${date}" required>
 
-    <label for="exerciseTypes">운동 종목</label>
+
+    <p>운동 종목</p> <!-- 설명을 위해 p 태그 사용 -->
     <div id="exerciseTypesContainer" class="multi-select-container">
       <div class="multi-select-item" data-value="SQUATS">Squats</div>
       <div class="multi-select-item" data-value="BENCH_PRESS">Bench Press</div>
       <div class="multi-select-item" data-value="DEAD_LIFT">Dead Lift</div>
       <div class="multi-select-item" data-value="OVERHEAD_PRESS">Overhead Press</div>
       <div class="multi-select-item" data-value="BARBELL_ROW">Barbell Row</div>
+      <div class="multi-select-item" data-value="PULL_UPS">Pull Ups</div>
+      <div class="multi-select-item" data-value="DUMBBELL_FLIES">Dumbbell FlIES</div>
+      <div class="multi-select-item" data-value="LEG_PRESS">Leg Press</div>
+      <div class="multi-select-item" data-value="BICEPS_CURLS">Biceps Curls</div>
+      <div class="multi-select-item" data-value="TRICEPS_EXTENSIONS">Triceps Extensions</div>
     </div>
 
-    <button type="submit">세션 추가</button>
+    <button type="submit" class="btn add-wsession-button">세션 추가<div class="dot"></div></button>
   </form>
-  <a th:href="@{/home}">뒤로가기</a>
+  <a th:href="@{/home}"><button type="button" class="btn back">뒤로가기<div class="dot"></div></button></a>
 </div>
 
 <script>
+    let selectedExercises = [];
+    document.querySelectorAll('.multi-select-item').forEach(item => {
+    item.addEventListener('click', () => {
+      toggleSelect(item.getAttribute('data-value'));
+    });
+  });
+
+  function toggleSelect(exercise) {
+    const index = selectedExercises.indexOf(exercise);
+    if (index === -1) {
+      selectedExercises.push(exercise);
+    } else {
+      selectedExercises.splice(index, 1);
+    }
+    document.getElementById('selectedExercises').value = selectedExercises.join(',');
+  }
     document.querySelectorAll('.multi-select-item').forEach(item => {
         item.addEventListener('click', () => {
             item.classList.toggle('selected');
@@ -73,7 +95,7 @@
         })
         .then(data => {
             alert('운동 세션이 추가되었습니다!');
-            window.location.href = '/home';
+            window.location.href = `/wsession/${date}`;
         })
         .catch(error => {
             console.error('Error:', error);

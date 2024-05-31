@@ -6,7 +6,7 @@
 </head>
 <body>
 <div class="container">
-  <h1 th:text="${date} + ' 운동 세션'"></h1>
+  <h3 th:text="${date} + ' 운동 세션'" class="text.black"></h3>
   <div th:if="${wsession != null}">
     <div th:each="exercise : ${wsession.exercises}">
       <h2 th:text="${exercise.type}"></h2>
@@ -14,13 +14,15 @@
         <p th:text="'세트 ' + ${set.id} + ': ' + ${set.weight} + 'kg x ' + ${set.reps} + '회'"></p>
       </div>
       <!-- 세트 추가 버튼 -->
-      <button type="button" th:onclick="'addSet(' + ${exercise.id} + ')'">세트 추가</button>
+      <button type="button" th:onclick="'addSet(' + ${exercise.id} + ')'" class="add-set-button">세트 추가</button>
     </div>
+    <button id="addMoreExercisesButton" th:data-date="${date}" class="add-exercise-button">종목 추가</button>
   </div>
   <div th:if="${session == null}">
     <p>운동 세션이 없습니다.</p>
     <a th:href="@{/api/v1/exercises/{exerciseID}/addSet?date=${date}}"><button type="button" class="add-set">세트 추가하기</button></a>
   </div>
+
   <a th:href="@{/home}"><button type="button" class="back">뒤로가기</button></a>
 </div>
 
@@ -55,6 +57,7 @@
     const submitButton = document.createElement('button');
     submitButton.type = 'submit';
     submitButton.textContent = '세트 추가';
+    submitButton.style.backgroundColor = 'blue';
     form.appendChild(submitButton);
 
     // 세트 추가 폼을 다이얼로그로 표시
@@ -95,6 +98,10 @@
       });
     });
   }
+    document.getElementById('addMoreExercisesButton').addEventListener('click', function() {
+    const date = this.getAttribute('data-date');
+    window.location.href = `/wsession/${date}/addExercise`;
+  });
 </script>
 </body>
 </html>

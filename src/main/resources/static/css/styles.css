@@ -28,6 +28,8 @@ body {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    margin-bottom: 30px;
+    margin-left: 40px;
 }
 
 .day-names, .days {
@@ -44,6 +46,15 @@ body {
 }
 .days .day.empty {
     background-color: #f5f5f5;
+}
+.text-red{
+    color: red;
+}
+.text-blue {
+    color: blue;
+}
+.text-black {
+    color: black;
 }
 
 .logo img {
@@ -70,7 +81,6 @@ form input {
     padding: 8px;
     box-sizing: border-box;
 }
-/* 버튼 스타일 통일 시작 */
 button {
     width: 100%;
     padding: 10px;
@@ -82,6 +92,7 @@ button {
 
 button.add-set {
     background: #007BFF;
+    width: 140px;
 }
 
 button.submit {
@@ -89,38 +100,203 @@ button.submit {
 }
 
 button.add-set:hover {
-    background: #0056b3;
+    background: red;
 }
 
 button.back {
     background: #28a745;
+    width: 140px;
 }
 
 button.back:hover {
-    background: #218838;
+    background: red;
 }
 
 button.login {
     background: #007BFF;
+    width: 140px;
 }
 
 button.login:hover {
-    background: #0056b3;
+    background: red;
 }
 
 button.signup {
     background: #28a745;
+    width: 140px;
+}
+
+button.signup:hover {
+    background: red;
 }
 
 div a button {
     margin-top: 10px;
 }
-/* 추가된 스타일 끝 */
+
+.logout-button {
+    background: #28a745;
+    font-size: 9px;
+    padding: 5px 10px;
+    margin: 2px;
+    cursor: pointer;
+}
+
+.logout-button:hover {
+    background-color: red;
+    border-color: #bbb;
+}
 
 a {
     display: block;
     text-align: center;
     color: #007BFF;
+}
+.add-set-button {
+  background-color: #0056b3;
+  color: white;
+  border: none;
+  padding: 3px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  width: 140px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.add-set-button:hover {
+  background-color: red;
+}
+.add-wsession-button {
+  background-color: #0056b3;
+  color: white;
+  border: none;
+  width: 140px !important;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.add-wsession-button:hover {
+  background-color: red;
+}
+.add-exercise-button {
+  background-color: orange;
+  color: white;
+  border: none;
+  width: 140px;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.add-exercise-button:hover {
+  background-color: red;
+}
+.multi-select-container {
+    display: flex;
+    flex-direction: column;
+    max-height: 150px;
+    overflow-y: scroll;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+.multi-select-item {
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+
+.multi-select-item:last-child {
+    margin-bottom: 0;
+}
+
+:root {
+  --bg: #3C465C;
+  --primary: #78FFCD;
+  --solid: #fff;
+  --btn-w: 10em;
+  --dot-w: calc(var(--btn-w)*.2);
+  --tr-X: calc(var(--btn-w) - var(--dot-w));
+}
+* {box-sizing: border-box;}
+*:before, *:after {box-sizing: border-box;}
+
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: wrap;
+  background: var(--bg);
+  font-size: 20px;
+  font-family: 'Titillium Web', sans-serif;
+}
+h1 {
+  color: var(--solid);
+  font-size: 2.5rem;
+  margin-top: 6rem;
+}
+.btn {
+  position: relative;
+  margin: 0 auto;
+  width: var(--btn-w);
+  color: var(--primary);
+  border: .2em solid var(--primary);
+  border-radius: 5em;
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 0.6em;
+  line-height: 2em;
+  cursor: pointer;
+}
+.dot {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: var(--dot-w);
+  height: 100%;
+  border-radius: 100%;
+  transition: all 300ms ease;
+  display: none;
+}
+.dot:after {
+  content: '';
+  position: absolute;
+  left: calc(50% - .4em);
+  top: -.4em;
+  height: .8em;
+  width: .8em;
+  background: var(--primary);
+  border-radius: 1em;
+  border: .25em solid var(--solid);
+  box-shadow: 0 0 .7em var(--solid),
+        0 0 2em var(--primary);
+}
+.btn:hover .dot,
+.btn:focus .dot {
+  animation: atom 2s infinite linear;
+  display: block;
+}
+@keyframes atom {
+  0% {transform: translateX(0) rotate(0);}
+  30%{transform: translateX(var(--tr-X)) rotate(0);}
+  50% {transform: translateX(var(--tr-X)) rotate(180deg);}
+  80% {transform: translateX(0) rotate(180deg);}
+  100% {transform: translateX(0) rotate(360deg);}
 }
 
 

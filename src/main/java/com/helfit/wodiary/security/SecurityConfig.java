@@ -2,6 +2,7 @@ package com.helfit.wodiary.security;
 
 //import com.helfit.wodiary.domain.user.entrypoint.JwtAuthenticationEntryPoint;
 //import com.helfit.wodiary.domain.user.filter.JwtRequestFilter;
+import com.helfit.wodiary.domain.user.handler.CustomAuthenticationFailureHandler;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,26 +11,15 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.client.RestTemplate;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig{
-//    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-//    private final JwtRequestFilter jwtRequestFilter;
-//    private final UserDetailsService jwtUserDetailsService;
 
-
-    //    public SecurityConfig(JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint, JwtRequestFilter jwtRequestFilter, UserDetailsService jwtUserDetailsService) {
-//        this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
-//        this.jwtRequestFilter = jwtRequestFilter;
-//        this.jwtUserDetailsService = jwtUserDetailsService;
-//    }
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder builder) {
         return builder.build();
@@ -58,6 +48,7 @@ public class SecurityConfig{
                                 .loginPage("/login")
                                 .loginProcessingUrl("/perform_login") // 로그인 처리를 위한 URL 변경
                                 .defaultSuccessUrl("/home", true)
+                                .failureUrl("/login?error=true")
                                 .permitAll()
                 )
                 .logout(logout ->
@@ -69,7 +60,6 @@ public class SecurityConfig{
                 .sessionManagement(sessionManagement -> sessionManagement
                         .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 );
-//        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 }

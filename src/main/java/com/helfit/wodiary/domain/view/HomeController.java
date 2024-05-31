@@ -79,11 +79,10 @@ public class HomeController {
             return "error";
         }
     }
-//    @GetMapping("/wsession/addSet")
-//    public String addSetPage(@RequestParam("date") String date, @RequestParam("exerciseId") Long exerciseId, Model model) {
-//        model.addAttribute("date", date);
-//        model.addAttribute("exerciseId", exerciseId);
-//        return "addSet";
-//    }
+    @GetMapping("/wsession/{date}/addExercise")
+    public String addExercise(@PathVariable String date, Model model) {
+        model.addAttribute("date", date);
+        return "addExercise";
+    }
 
 }

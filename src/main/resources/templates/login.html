@@ -20,12 +20,15 @@
             <input type="password" id="password" name="password" required>
         </div>
         <div>
-            <button type="submit" class="login">Login</button>
+            <button type="submit" class="btn login">Login<div class="dot"></div></button>
+        </div>
+        <div th:if="${param.error}">
+            <p style="color: red;">아이디 또는 비밀번호를 잘못 입력하셨습니다.</p>
         </div>
     </form>
     <div>
         <a th:href="@{/signup}">
-            <button type="button" class="signup">Sign Up</button>
+            <button type="button" class="btn signup">Sign Up<div class="dot"></div></button>
         </a>
     </div>
 </div>
