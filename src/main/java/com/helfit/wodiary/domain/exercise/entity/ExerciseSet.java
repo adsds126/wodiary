@@ -16,7 +16,9 @@ public class ExerciseSet {
     @ManyToOne
     private Exercise exercise;
     @Column
-    private int weight; // 세트의 무게
+    private int weight;
     @Column
-    private int reps;  // 반복 횟수
+    private int reps;
+    @Column
+    private int setOrder;
 }

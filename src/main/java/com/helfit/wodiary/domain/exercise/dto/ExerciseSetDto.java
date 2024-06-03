@@ -31,5 +31,6 @@ public class ExerciseSetDto {
         private Long setId;
         private Integer weight;
         private Integer reps;
+        private Integer setOrder;
     }
 }

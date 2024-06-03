@@ -16,7 +16,7 @@ import java.util.List;
 public class Wsession {
     @Id
     @Column(columnDefinition = "DATE")
-    private LocalDate wsessionId;  // 날짜 형식의 ID, 예: "20240503"
+    private LocalDate wsessionId;  // 날짜 형식 ID, ex) "20240503"
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")

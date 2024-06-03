@@ -1,6 +1,5 @@
 package com.helfit.wodiary.domain.wsession.dto;
 
-import com.helfit.wodiary.domain.exercise.entity.Exercise;
 import com.helfit.wodiary.domain.exercise.entity.ExerciseType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -72,6 +71,7 @@ public class WsessionDto {
         private Long id;
         private int weight;
         private int reps;
+        private int setOrder;
         @Override
         public String toString() {
             return "SetDetails{" +

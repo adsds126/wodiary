@@ -6,12 +6,12 @@
 </head>
 <body>
 <div class="container">
-  <h3 th:text="${date} + ' 운동 세션'" class="text.black"></h3>
+  <h2 th:text="${date} + ' 운동 세션'" class="text.black"></h2>
   <div th:if="${wsession != null}">
     <div th:each="exercise : ${wsession.exercises}">
       <h2 th:text="${exercise.type}"></h2>
       <div th:each="set : ${exercise.sets}">
-        <p th:text="'세트 ' + ${set.id} + ': ' + ${set.weight} + 'kg x ' + ${set.reps} + '회'"></p>
+        <p th:text="'세트 ' + ${set.setOrder} + ': ' + ${set.weight} + 'kg x ' + ${set.reps} + '회'"></p>
       </div>
       <!-- 세트 추가 버튼 -->
       <button type="button" th:onclick="'addSet(' + ${exercise.id} + ')'" class="add-set-button">세트 추가</button>

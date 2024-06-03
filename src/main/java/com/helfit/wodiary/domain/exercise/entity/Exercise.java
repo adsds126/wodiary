@@ -20,7 +20,7 @@ public class Exercise {
     private Long ExerciseId;
 
     @ManyToOne
-    @JoinColumn(name = "wsession_id")  // Wsession을 참조하는 외래 키
+    @JoinColumn(name = "wsession_id")
     private Wsession wsession;
 
     @Enumerated(EnumType.STRING)

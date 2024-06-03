@@ -23,11 +23,12 @@ public class ExerciseService {
     public ExerciseSet addExerciseSet(Long exerciseId, ExerciseSetDto.AddSets exerciseSetDto) {
         Exercise exercise = exerciseRepository.findById(exerciseId)
                 .orElseThrow(() -> new RuntimeException("Exercise not found"));
-
+        int currentSetCount = exercise.getSets().size();
         ExerciseSet exerciseSet = new ExerciseSet();
         exerciseSet.setExercise(exercise);
         exerciseSet.setWeight(exerciseSetDto.getWeight());
         exerciseSet.setReps(exerciseSetDto.getReps());
+        exerciseSet.setSetOrder(currentSetCount + 1);
         return exerciseSetRepository.save(exerciseSet);
     }
 
@@ -43,7 +44,7 @@ public class ExerciseService {
             exerciseSet.setReps(updateDto.getReps());
         }
         exerciseSetRepository.save(exerciseSet);
-        return new ExerciseSetDto.Response(exerciseSet.getSetId(), exerciseSet.getWeight(), exerciseSet.getReps());
+        return new ExerciseSetDto.Response(exerciseSet.getSetId(), exerciseSet.getWeight(), exerciseSet.getReps(),exerciseSet.getSetOrder());
     }
 
     @Transactional

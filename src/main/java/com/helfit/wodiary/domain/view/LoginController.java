@@ -1,33 +1,23 @@
 package com.helfit.wodiary.domain.view;
-//import com.helfit.wodiary.domain.user.dto.JwtResponse;
+
 import com.helfit.wodiary.domain.user.dto.UserDto;
 import com.helfit.wodiary.domain.user.service.UserService;
-//import com.helfit.wodiary.domain.user.util.JwtTokenUtil;
-import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
+@RequiredArgsConstructor
 public class LoginController {
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
-
-//    @Autowired
-//    private UserDetailsService userDetailsService;
-    @Autowired
-    private UserService userService;
+    private final AuthenticationManager authenticationManager;
+    private final UserService userService;
 
     @GetMapping("/login")
     public String showLoginPage() {
