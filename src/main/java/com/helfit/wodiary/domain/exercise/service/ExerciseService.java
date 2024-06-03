@@ -54,4 +54,11 @@ public class ExerciseService {
 
         exerciseRepository.delete(exercise);
     }
+    @Transactional
+    public void deleteExerciseSet(Long setId) {
+        ExerciseSet exerciseSet = exerciseSetRepository.findById(setId)
+                .orElseThrow(() -> new EntityNotFoundException("Exercise not found with id: " + setId));
+
+        exerciseSetRepository.delete(exerciseSet);
+    }
 }

@@ -3,6 +3,44 @@
 <head>
   <title>Home</title>
   <link rel="stylesheet" th:href="@{/css/styles.css}">
+  <style>
+    /* 모달 스타일 */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      padding-top: 100px;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgb(0,0,0);
+      background-color: rgba(0,0,0,0.4);
+    }
+
+    .modal-content {
+      background-color: #fefefe;
+      margin: auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+    }
+
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    </style>
 </head>
 <body>
 <div class="container">
@@ -31,16 +69,108 @@
       </div>
       <div th:each="day : ${days}">
         <a th:href="@{'/wsession/' + ${currentYear} + '-' + ${paddedMonth} + '-' + ${day}}">
-          <div class="day" th:text="${day}"></div>
+          <div class="day" th:text="${day}"th:classappend="${sessionDays.contains(day) ? ' session' : ''}"></div>
         </a>
       </div>
     </div>
   </div>
   <div class="logout">
     <form th:action="@{/logout}" method="post">
-      <button type="submit" class="logout-button">Logout</button>
+      <button type="submit" class="logout-button">로그아웃</button>
     </form>
   </div>
+  <button onclick="openModal()" class="copy-button">세션 복사</button>
 </div>
+<div id="copyModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <h2>Copy Session</h2>
+    <label for="sourceDate">세션을 복사할 날짜:</label>
+    <input type="date" id="sourceDate" name="sourceDate"><br><br>
+    <label for="targetDate">세션을 붙혀넣을 날짜:</label>
+    <input type="date" id="targetDate" name="targetDate"><br><br>
+    <button onclick="submitCopySession()" class="copy-button">Submit</button>
+  </div>
+</div>
+<script>
+  function openModal() {
+    document.getElementById('copyModal').style.display = "block";
+  }
+
+  function closeModal() {
+    document.getElementById('copyModal').style.display = "none";
+  }
+  function submitCopySession() {
+    var sourceDate = document.getElementById('sourceDate').value;
+    var targetDate = document.getElementById('targetDate').value;
+
+    if (!sourceDate || !targetDate) {
+      alert('Both source date and target date are required.');
+      return;
+    }
+
+    copySession(sourceDate, targetDate);
+  }
+  function fetchSession(date) {
+    var token = localStorage.getItem('token');
+    fetch(`/api/v1/wsession/${date}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + token,
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => {
+      if (response.ok) {
+        window.location.href = `/wsession/${date}`;
+      } else if (response.status === 401) {
+        alert('Unauthorized. Please login again.');
+        window.location.href = '/login';
+      } else {
+        alert('Error fetching session.');
+      }
+    })
+    .catch(error => console.error('Error:', error));
+  }
+
+  function initiateCopySession() {
+    var sourceDate = prompt('세션을 복사할 날짜를 입력하세요.(YYYY-MM-DD)');
+    if (!sourceDate) {
+      alert('Source date is required.');
+      return;
+    }
+
+    var targetDate = prompt('붙혀넣을 날짜를 입력하세요.(YYYY-MM-DD)');
+    if (!targetDate) {
+      alert('Target date is required.');
+      return;
+    }
+
+    copySession(sourceDate, targetDate);
+  }
+
+  function copySession(sourceDate, targetDate) {
+    fetch('/api/v1/wsession/copy', {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({sourceDate: sourceDate, targetDate: targetDate})
+    })
+    .then(response => {
+      if (response.ok) {
+        alert('Session copied successfully.');
+        window.location.reload();
+      } else if (response.status === 401) {
+        alert('Unauthorized. Please login again.');
+        window.location.href = '/login';
+      } else {
+        response.text().then(text => alert('Error copying session: ' + text));
+      }
+    })
+    .catch(error => console.error('Error:', error));
+  }
+</script>
 </body>
 </html>

@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -103,6 +104,7 @@ public class WsessionService {
                         newSet.setWeight(set.getWeight());
                         newSet.setReps(set.getReps());
                         newSet.setExercise(newExercise);
+                        newSet.setSetOrder(set.getSetOrder());
                         return newSet;
                     }).collect(Collectors.toList()));
                     return newExercise;
@@ -126,5 +128,15 @@ public class WsessionService {
                 .collect(Collectors.toList());
 
         return new WsessionDto.Response(session.getWsessionId(), exerciseDetails);
+    }
+    public List<LocalDate> getSessionDates(int year, int month) {
+        YearMonth yearMonth = YearMonth.of(year, month);
+        LocalDate startDate = yearMonth.atDay(1);
+        LocalDate endDate = yearMonth.atEndOfMonth();
+
+        return wsessionRepository.findAllByWsessionIdBetween(startDate, endDate)
+                .stream()
+                .map(Wsession::getWsessionId)
+                .collect(Collectors.toList());
     }
 }

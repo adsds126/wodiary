@@ -13,6 +13,7 @@ import java.time.YearMonth;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -46,11 +47,17 @@ public class HomeController {
 
         String paddedMonth = String.format("%02d", currentMonth);
 
+        List<LocalDate> sessionDates = wsessionService.getSessionDates(currentYear, currentMonth);
+        List<String> sessionDays = (sessionDates != null) ? sessionDates.stream()
+                .map(date -> String.format("%02d", date.getDayOfMonth()))
+                .collect(Collectors.toList()) : new ArrayList<>();
+
         model.addAttribute("currentYear", currentYear);
         model.addAttribute("currentMonth", currentMonth); // 패딩 처리하지 않은 숫자
         model.addAttribute("paddedMonth", paddedMonth); // 패딩된 월 문자열
         model.addAttribute("emptyDays", emptyDays);
         model.addAttribute("days", days);
+        model.addAttribute("sessionDays", sessionDays);
 
         return "home";
     }

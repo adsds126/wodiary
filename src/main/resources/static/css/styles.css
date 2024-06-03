@@ -8,7 +8,6 @@ body {
     height: 100vh;
     background-color: #f5f5f5;
 }
-
 .container {
     text-align: center;
     background: #fff;
@@ -17,6 +16,7 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: 300px;
 }
+
 .calendar-controls {
     display: flex;
     justify-content: space-between;
@@ -47,6 +47,31 @@ body {
 .days .day.empty {
     background-color: #f5f5f5;
 }
+.day.session {
+      color: orange;
+      font-weight: bold;
+}
+.set-container {
+      display: flex;
+      align-items: center;
+      height: 30px;
+      justify-content: center; /* 컨테이너를 가운데 정렬 */
+      padding: 3px 0;
+    }
+   .set-description {
+      margin-right: 5px; /* 세트와 버튼 사이의 간격 */
+      white-space: nowrap; /* 줄 바꿈 방지 */
+      text-align: center; /* 텍스트 중앙 정렬 */
+    }
+    .delete-button {
+      background-color: #f8d7da;
+      border: none;
+      color: #721c24;
+      padding: 3px 6px;
+      width: 20px;
+      cursor: pointer;
+      font-size: 12px;
+    }
 .text-red{
     color: red;
 }
@@ -143,6 +168,17 @@ div a button {
 }
 
 .logout-button:hover {
+    background-color: red;
+    border-color: #bbb;
+}
+.copy-button {
+    background: blue;
+    font-size: 9px;
+    padding: 5px 10px;
+    margin: 2px;
+    cursor: pointer;
+}
+.copy-button:hover {
     background-color: red;
     border-color: #bbb;
 }

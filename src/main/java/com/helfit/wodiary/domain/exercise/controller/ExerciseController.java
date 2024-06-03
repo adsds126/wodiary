@@ -49,6 +49,17 @@ public class ExerciseController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+    @DeleteMapping("/sets/{setId}")
+    public ResponseEntity<?> deleteSet(@PathVariable Long setId) {
+        try {
+            exerciseService.deleteExerciseSet(setId);
+            return ResponseEntity.ok().build();
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error deleting exercise: " + e.getMessage());
+        }
+    }
 
 
     @DeleteMapping("/{exerciseId}")
