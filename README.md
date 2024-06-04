@@ -64,17 +64,17 @@ Gradle
 
 ## 사용법
 <img src="docs/images/wo-login.png" alt="로그인화면" width="400"/> <br>
-1. 로그인화면에서 signup합니다.
+1. 로그인화면에서 signup합니다. <br>
 <img src="docs/images/wo-home.png" alt="홈화면" width="400"/> <br>
-2. 로그인을 하면 home으로 이동합니다. 원하는 날짜를 클릭합니다.
+2. 로그인을 하면 home으로 이동합니다. 원하는 날짜를 클릭합니다. <br>
 <img src="docs/images/wo-addEx.png" alt="운동추가화면" width="400"/> <br>
-3. 운동종목이 보입니다. 스크롤하면서 원하는 종목들을 클릭해줍니다.
+3. 운동종목이 보입니다. 스크롤하면서 원하는 종목들을 클릭해줍니다. <br>
 <img src="docs/images/wo-addSet1.png" alt="세트추가1" width="400"/> <br>
-4. 원하는 운동종목에 세트를 추가해줍니다.
+4. 원하는 운동종목에 세트를 추가해줍니다. <br>
 <img src="docs/images/wo-addSet2.png" alt="세트추가2" width="400"/> <br>
-5. 세트추가 된 모습입니다. X버튼을 누르면 세트가 삭제되며 종목삭제 버튼을 누르면 종목이 삭제됩니다.
+5. 세트추가 된 모습입니다. X버튼을 누르면 세트가 삭제되며 종목삭제 버튼을 누르면 종목이 삭제됩니다. <br>
 <img src="docs/images/wo-copySess.png" alt="copySession" width="400"/> <br>
-6. 운동 세션이 있는 날짜의 운동세션을 원하는 날에 붙혀넣을 수 있습니다.
+6. 운동 세션이 있는 날짜의 운동세션을 원하는 날에 붙혀넣을 수 있습니다. <br>
 
 
 ## 연락처
