@@ -26,11 +26,11 @@
 
 기술 스택
 
-Backend: Spring Boot 3, JPA, Spring Security 6, WebSocket, Lombok
-Database: H2 (개발), MariaDB (프로덕션)
-Frontend: Thymeleaf, JavaScript, css, HTML
-Build Tool: Gradle
-IDE: IntelliJ IDEA Community Edition
+Backend: Spring Boot 3, JPA, Spring Security 6, WebSocket, Lombok  
+Database: H2 (개발), MariaDB (프로덕션)  
+Frontend: Thymeleaf, JavaScript, css, HTML  
+Build Tool: Gradle  
+IDE: IntelliJ IDEA Community Edition  
 
 설치 및 실행
 
