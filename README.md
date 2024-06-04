@@ -1,5 +1,4 @@
 # Wodiary
-<img src="docs/images/logo.png" alt="로고" width="400"/> <br>
 <img src="docs/images/logo.png" alt="프로젝트 로고" width="200"/> <br>
 웨이트 훈련 기록용 웹 애플리케이션.
 
