@@ -1,5 +1,6 @@
 # Wodiary
-
+<img src="docs/images/logo.png" alt="로고" width="400"/> <br>
+<img src="docs/images/logo.png" alt="프로젝트 로고" width="200"/> <br>
 웨이트 훈련 기록용 웹 애플리케이션.
 
 ## 목차
@@ -8,8 +9,6 @@
 - [기능](#기능)
 - [설치](#설치)
 - [사용법](#사용법)
-- [기여](#기여)
-- [라이센스](#라이센스)
 - [연락처](#연락처)
 
 ## 소개
@@ -48,12 +47,37 @@ Gradle
 
 ## 설치
 
-```bash
-1.저장소를 클론합니다.
-git clone https://github.com/adsds126/wodiary.git
-cd wodiary
-2.필요한 의존성을 설치합니다.
-./gradlew clean build
-3.애플리케이션을 실행합니다.
-./gradlew bootRun
-4. 브라우저에서 localhost:8080/login 으로 접속합니다.
+1. 저장소를 클론합니다.
+    ```bash
+    git clone https://github.com/adsds126/wodiary.git
+    cd wodiary
+    ```
+2. 필요한 의존성을 설치합니다.
+    ```bash
+    ./gradlew clean build
+    ```
+3. 애플리케이션을 실행합니다.
+    ```bash
+    ./gradlew bootRun
+    ```
+4. 브라우저에서 `localhost:8080/login`으로 접속합니다.
+
+
+## 사용법
+<img src="docs/images/wo-login.png" alt="로그인화면" width="400"/> <br>
+1. 로그인화면에서 signup합니다.
+<img src="docs/images/wo-home.png" alt="홈화면" width="400"/> <br>
+2. 로그인을 하면 home으로 이동합니다. 원하는 날짜를 클릭합니다.
+<img src="docs/images/wo-addEx.png" alt="운동추가화면" width="400"/> <br>
+3. 운동종목이 보입니다. 스크롤하면서 원하는 종목들을 클릭해줍니다.
+<img src="docs/images/wo-addSet1.png" alt="세트추가1" width="400"/> <br>
+4. 원하는 운동종목에 세트를 추가해줍니다.
+<img src="docs/images/wo-addSet2.png" alt="세트추가2" width="400"/> <br>
+5. 세트추가 된 모습입니다. X버튼을 누르면 세트가 삭제되며 종목삭제 버튼을 누르면 종목이 삭제됩니다.
+<img src="docs/images/wo-copySess.png" alt="copySession" width="400"/> <br>
+6. 운동 세션이 있는 날짜의 운동세션을 원하는 날에 붙혀넣을 수 있습니다.
+
+
+## 연락처
+
+adsds126@gmail.com
