@@ -89,4 +89,11 @@ public class WsessionDto {
         private LocalDate sourceDate;
         private LocalDate targetDate;
     }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    public static class WsessionStatsDto {
+        private int totalVolume;
+    }
 }

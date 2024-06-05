@@ -11,6 +11,6 @@ import java.util.Optional;
 public interface WsessionRepository extends JpaRepository<Wsession, LocalDate> {
     @EntityGraph(attributePaths = {"user", "exercises.sets"})
     Optional<Wsession> findById(LocalDate id);
-
+    List<Wsession> findAllByUserIdAndWsessionIdBetween(Long userId, LocalDate startDate, LocalDate endDate);
     List<Wsession> findAllByWsessionIdBetween(LocalDate startDate, LocalDate endDate);
 }

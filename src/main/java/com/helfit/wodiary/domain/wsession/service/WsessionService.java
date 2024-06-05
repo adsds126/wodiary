@@ -65,6 +65,7 @@ public class WsessionService {
         return convertToDto(sessionOpt.get());
     }
 
+
     private WsessionDto.Response convertToDto(Wsession session) {
         List<WsessionDto.ExerciseDetails> exercises = session.getExercises().stream()
                 .map(exercise -> new WsessionDto.ExerciseDetails(
@@ -138,5 +139,26 @@ public class WsessionService {
                 .stream()
                 .map(Wsession::getWsessionId)
                 .collect(Collectors.toList());
+    }
+    @Transactional(readOnly = true)
+    public WsessionDto.WsessionStatsDto getMonthlyStats(Long userId, YearMonth yearMonth) {
+        LocalDate startDate = yearMonth.atDay(1);
+        LocalDate endDate = yearMonth.atEndOfMonth();
+
+        List<Wsession> sessions = wsessionRepository.findAllByUserIdAndWsessionIdBetween(userId, startDate, endDate);
+
+        int totalWeight = 0;
+        int totalReps = 0;
+
+        for (Wsession session : sessions) {
+            for (Exercise exercise : session.getExercises()) {
+                for (ExerciseSet set : exercise.getSets()) {
+                    totalWeight += set.getWeight();
+                    totalReps += set.getReps();
+                }
+            }
+        }
+        int totalVolume = totalWeight * totalReps;
+        return new WsessionDto.WsessionStatsDto(totalVolume);
     }
 }

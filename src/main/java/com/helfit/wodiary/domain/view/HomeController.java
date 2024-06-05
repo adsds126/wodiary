@@ -1,4 +1,6 @@
 package com.helfit.wodiary.domain.view;
+import com.helfit.wodiary.domain.user.entity.User;
+import com.helfit.wodiary.domain.user.service.UserService;
 import com.helfit.wodiary.domain.wsession.dto.WsessionDto;
 import com.helfit.wodiary.domain.wsession.service.WsessionService;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +23,7 @@ public class HomeController {
 
     private final WsessionService wsessionService;
     private final RestTemplate restTemplate;
+    private final UserService userService;
 
     @GetMapping("/home")
     public String home(@RequestParam(value = "year", required = false) Integer year,
@@ -31,6 +34,10 @@ public class HomeController {
         int currentMonth = (month == null) ? now.getMonthValue() : month;
 
         YearMonth yearMonth = YearMonth.of(currentYear, currentMonth);
+        User currentUser = userService.getCurrentUser();
+        Long userId = currentUser.getId();
+        WsessionDto.WsessionStatsDto stats = wsessionService.getMonthlyStats(userId, yearMonth);
+        model.addAttribute("totalVolume", stats.getTotalVolume());
         int daysInMonth = yearMonth.lengthOfMonth();
         LocalDate firstOfMonth = yearMonth.atDay(1);
         int dayOfWeekValue = firstOfMonth.getDayOfWeek().getValue() % 7; // Sunday=0, Monday=1, ..., Saturday=6

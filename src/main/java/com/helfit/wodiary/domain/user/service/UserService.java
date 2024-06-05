@@ -9,6 +9,9 @@ import com.helfit.wodiary.exception.ExceptionCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,18 +37,18 @@ public class UserService {
 
         return userRepository.save(user);
     }
-//    @Transactional
-//    public User signup(User user){
-//        //이미 가입된 이메일인지 검증
-//        verifyExistsUserEmail(user.getEmail());
-//        //비밀번호 암호화해서 저장
-//        String encryptedPassword = passwordEncoder.encode(user.getPassword());
-//        User newUser = new User();
-//        newUser.setEmail(user.getEmail());
-//        newUser.setPassword(encryptedPassword);
-//        newUser.setUsername(user.getUsername());
-//        return userRepository.save(newUser);
-//    }
+    public User getCurrentUser() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username;
+        if (principal instanceof UserDetails) {
+            username = ((UserDetails) principal).getUsername();
+        } else {
+            username = principal.toString();
+        }
+
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
+    }
 
 
     @Transactional(readOnly = true)

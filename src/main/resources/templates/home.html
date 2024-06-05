@@ -74,6 +74,9 @@
       </div>
     </div>
   </div>
+  <div class="monthly-stats">
+    <p>이번달 총 볼륨: <span th:text="${totalVolume}+kg"></span></p>
+  </div>
   <div class="logout">
     <form th:action="@{/logout}" method="post">
       <button type="submit" class="logout-button">로그아웃</button>
@@ -92,6 +95,8 @@
     <button onclick="submitCopySession()" class="copy-button">Submit</button>
   </div>
 </div>
+
+<button onclick="initiateCopySession()">Copy Session</button>
 <script>
   function openModal() {
     document.getElementById('copyModal').style.display = "block";

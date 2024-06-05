@@ -23,8 +23,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/wsession")
 public class WsessionController {
-
-
     private final WsessionService wsessionService;
     private final WsessionRepository wsessionRepository;
 
@@ -50,6 +48,7 @@ public class WsessionController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
     @DeleteMapping("/{wsessionId}")
     public ResponseEntity<?> deleteWsession(@PathVariable LocalDate wsessionId) {
         try {
