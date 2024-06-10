@@ -7,7 +7,6 @@ import com.helfit.wodiary.domain.wsession.repository.WsessionRepository;
 import com.helfit.wodiary.domain.wsession.service.WsessionService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -72,15 +71,14 @@ public class WsessionController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error copying Wsession: " + e.getMessage());
         }
     }
-
-    public List<LocalDate> getSessionDates(int year, int month) {
-        YearMonth yearMonth = YearMonth.of(year, month);
-        LocalDate startDate = yearMonth.atDay(1);
-        LocalDate endDate = yearMonth.atEndOfMonth();
-
-        return wsessionRepository.findAllByWsessionIdBetween(startDate, endDate)
-                .stream()
-                .map(Wsession::getWsessionId)
-                .collect(Collectors.toList());
-    }
+//    public List<LocalDate> getSessionDates(int year, int month) {
+//        YearMonth yearMonth = YearMonth.of(year, month);
+//        LocalDate startDate = yearMonth.atDay(1);
+//        LocalDate endDate = yearMonth.atEndOfMonth();
+//
+//        return wsessionRepository.findAllByWsessionIdBetween(startDate, endDate)
+//                .stream()
+//                .map(Wsession::getWsessionId)
+//                .collect(Collectors.toList());
+//    }
 }

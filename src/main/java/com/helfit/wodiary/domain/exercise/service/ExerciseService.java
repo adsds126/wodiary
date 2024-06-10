@@ -6,18 +6,17 @@ import com.helfit.wodiary.domain.exercise.entity.ExerciseSet;
 import com.helfit.wodiary.domain.exercise.repository.ExerciseRepository;
 import com.helfit.wodiary.domain.exercise.repository.ExerciseSetRepository;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@RequiredArgsConstructor
 public class ExerciseService {
 
-    @Autowired
-    private ExerciseRepository exerciseRepository;
-
-    @Autowired
-    private ExerciseSetRepository exerciseSetRepository;
+    private final ExerciseRepository exerciseRepository;
+    private final ExerciseSetRepository exerciseSetRepository;
 
     @Transactional
     public ExerciseSet addExerciseSet(Long exerciseId, ExerciseSetDto.AddSets exerciseSetDto) {

@@ -8,6 +8,7 @@ import com.helfit.wodiary.domain.wsession.dto.WsessionDto;
 import com.helfit.wodiary.domain.wsession.entity.Wsession;
 import com.helfit.wodiary.domain.wsession.repository.WsessionRepository;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,13 +20,11 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class WsessionService {
 
-    @Autowired
-    private WsessionRepository wsessionRepository;
-
-    @Autowired
-    private UserRepository userRepository;
+    private final WsessionRepository wsessionRepository;
+    private final UserRepository userRepository;
 
     @Transactional
     public WsessionDto.Response createSession(WsessionDto.Add sessionDto) {
@@ -147,18 +146,17 @@ public class WsessionService {
 
         List<Wsession> sessions = wsessionRepository.findAllByUserIdAndWsessionIdBetween(userId, startDate, endDate);
 
-        int totalWeight = 0;
-        int totalReps = 0;
+        int totalVolume = 0;
+
 
         for (Wsession session : sessions) {
             for (Exercise exercise : session.getExercises()) {
                 for (ExerciseSet set : exercise.getSets()) {
-                    totalWeight += set.getWeight();
-                    totalReps += set.getReps();
+                    int setVolume = set.getWeight() * set.getReps();
+                    totalVolume += setVolume;
                 }
             }
         }
-        int totalVolume = totalWeight * totalReps;
         return new WsessionDto.WsessionStatsDto(totalVolume);
     }
 }
