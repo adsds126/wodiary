@@ -1,14 +1,13 @@
 package com.helfit.wodiary.domain.user.service;
 
-import com.helfit.wodiary.domain.user.controller.UserController;
 import com.helfit.wodiary.domain.user.dto.UserDto;
 import com.helfit.wodiary.domain.user.entity.User;
 import com.helfit.wodiary.domain.user.repository.UserRepository;
 import com.helfit.wodiary.exception.BusinessLogicException;
 import com.helfit.wodiary.exception.ExceptionCode;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,17 +16,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
     @Transactional
     public User signup(UserDto.Signup signupDto) {
         if (userRepository.findByUsername(signupDto.getUsername()).isPresent()) {
-            throw new RuntimeException("Username already exists");
+            throw new RuntimeException("이미 회원가입되어있는 회원입니다.");
         }
 
         User user = new User();
@@ -37,6 +35,7 @@ public class UserService {
 
         return userRepository.save(user);
     }
+    @Transactional(readOnly = true)
     public User getCurrentUser() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username;
@@ -47,7 +46,7 @@ public class UserService {
         }
 
         return userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
+                .orElseThrow(() -> new UsernameNotFoundException("유저를 찾을 수 없습니다. : " + username));
     }
 
 
@@ -55,7 +54,7 @@ public class UserService {
     public void verifyExistsUserEmail(String email) {
         logger.info("Verifying if email already exists: {}", email);
         userRepository.findByEmail(email).ifPresent((e) -> {
-            logger.error("Email already exists: {}", email);
+            logger.error("이메일이 이미 존재합니다. : {}", email);
             throw new BusinessLogicException(ExceptionCode.ALREADY_EXISTS_EMAIL);
         });
     }

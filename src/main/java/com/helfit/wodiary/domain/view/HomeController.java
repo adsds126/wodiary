@@ -60,8 +60,8 @@ public class HomeController {
                 .collect(Collectors.toList()) : new ArrayList<>();
 
         model.addAttribute("currentYear", currentYear);
-        model.addAttribute("currentMonth", currentMonth); // 패딩 처리하지 않은 숫자
-        model.addAttribute("paddedMonth", paddedMonth); // 패딩된 월 문자열
+        model.addAttribute("currentMonth", currentMonth);
+        model.addAttribute("paddedMonth", paddedMonth);
         model.addAttribute("emptyDays", emptyDays);
         model.addAttribute("days", days);
         model.addAttribute("sessionDays", sessionDays);
