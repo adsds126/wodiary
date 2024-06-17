@@ -36,6 +36,15 @@ public class ExerciseController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
         }
     }
+    @GetMapping("/sets/{setId}")
+    public ResponseEntity<?> getPriorSet(@PathVariable Long setId) {
+        ExerciseSetDto.Response setDto = exerciseService.getSetById(setId);
+        if (setDto != null) {
+            return ResponseEntity.ok(setDto);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
 
     @PatchMapping("/sets/{setId}")

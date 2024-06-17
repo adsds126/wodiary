@@ -1,8 +1,5 @@
 package com.helfit.wodiary.security;
 
-//import com.helfit.wodiary.domain.user.entrypoint.JwtAuthenticationEntryPoint;
-//import com.helfit.wodiary.domain.user.filter.JwtRequestFilter;
-import com.helfit.wodiary.domain.user.handler.CustomAuthenticationFailureHandler;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

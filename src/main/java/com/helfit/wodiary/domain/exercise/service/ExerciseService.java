@@ -73,4 +73,16 @@ public class ExerciseService {
 
         exerciseSetRepository.delete(exerciseSet);
     }
+    /**
+     * 전세트 불러오는 로직
+     */
+    @Transactional
+    public ExerciseSetDto.Response getSetById(Long setId) {
+        ExerciseSet set = exerciseSetRepository.findById(setId).orElse(null);
+        if (set != null) {
+            return new ExerciseSetDto.Response(set.getSetId(), set.getWeight(), set.getReps(), set.getSetOrder());
+        } else {
+            return null;
+        }
+    }
 }

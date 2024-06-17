@@ -10,9 +10,14 @@
   <div th:if="${wsession != null}">
     <div th:each="exercise : ${wsession.exercises}">
       <h2 th:text="${exercise.type}"></h2>
+<!--      <div th:each="set : ${exercise.sets}" class="set-container">-->
+<!--        <p th:text="'세트 ' + ${set.setOrder} + ': ' + ${set.weight} + 'kg x ' + ${set.reps} + '회'" class="set-description"></p>-->
+<!--        <button th:attr="onclick=|deleteSet(${set.id})|" class="delete-set-button">X</button> &lt;!&ndash;세트삭제버튼&ndash;&gt;-->
+<!--      </div>-->
       <div th:each="set : ${exercise.sets}" class="set-container">
         <p th:text="'세트 ' + ${set.setOrder} + ': ' + ${set.weight} + 'kg x ' + ${set.reps} + '회'" class="set-description"></p>
-        <button th:attr="onclick=|deleteSet(${set.id})|" class="delete-set-button">X</button> <!--세트삭제버튼-->
+        <button th:attr="onclick=|deleteSet(${set.id})|" class="delete-set-button">X</button> <!-- 세트 삭제 버튼 -->
+        <button th:attr="onclick=|duplicateSet(${exercise.id}, ${set.id})|" class="duplicate-set-button">+</button> <!-- 세트 복제 버튼 -->
       </div>
       <button type="button" th:attr="onclick=|deleteExercise(${exercise.id})|" class="delete-exercise-button">종목 삭제</button>
       <button type="button" th:onclick="'addSet(' + ${exercise.id} + ')'" class="add-set-button">세트 추가</button>
@@ -122,6 +127,59 @@
       }
     })
     .catch(error => console.error('Error:', error));
+  }
+  function duplicateSet(exerciseId, setId) {
+  // 기존 세트의 데이터를 가져오기 위해 fetch 사용
+  fetch(`/api/v1/exercises/sets/${setId}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('token')
+    }
+  })
+  .then(response => {
+    if (response.ok) {
+      return response.json();
+    } else if (response.status === 401) {
+      alert('Unauthorized. Please login again.');
+      window.location.href = '/login';
+    } else {
+      throw new Error('Failed to fetch set data');
+    }
+  })
+  .then(setData => {
+    // 새로운 세트 추가
+    fetch(`/api/v1/exercises/${exerciseId}/sets`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token')
+      },
+      body: JSON.stringify({
+        weight: setData.weight,
+        reps: setData.reps
+      })
+    })
+    .then(response => {
+      if (response.ok) {
+        alert('세트가 복제되었습니다.');
+        window.location.reload();
+      } else if (response.status === 401) {
+        alert('Unauthorized. Please login again.');
+        window.location.href = '/login';
+      } else {
+        response.text().then(text => alert('Error duplicating set: ' + text));
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert('세트 복제 중 오류가 발생했습니다.');
+    });
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    alert('세트 데이터를 가져오는 중 오류가 발생했습니다.');
+  });
   }
   function deleteExercise(exerciseId) {
     fetch(`/api/v1/exercises/${exerciseId}`, {
