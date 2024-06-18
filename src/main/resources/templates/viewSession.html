@@ -10,10 +10,6 @@
   <div th:if="${wsession != null}">
     <div th:each="exercise : ${wsession.exercises}">
       <h2 th:text="${exercise.type}"></h2>
-<!--      <div th:each="set : ${exercise.sets}" class="set-container">-->
-<!--        <p th:text="'세트 ' + ${set.setOrder} + ': ' + ${set.weight} + 'kg x ' + ${set.reps} + '회'" class="set-description"></p>-->
-<!--        <button th:attr="onclick=|deleteSet(${set.id})|" class="delete-set-button">X</button> &lt;!&ndash;세트삭제버튼&ndash;&gt;-->
-<!--      </div>-->
       <div th:each="set : ${exercise.sets}" class="set-container">
         <p th:text="'세트 ' + ${set.setOrder} + ': ' + ${set.weight} + 'kg x ' + ${set.reps} + '회'" class="set-description"></p>
         <button th:attr="onclick=|deleteSet(${set.id})|" class="delete-set-button">X</button> <!-- 세트 삭제 버튼 -->
@@ -47,6 +43,7 @@
     const weightInput = document.createElement('input');
     weightInput.type = 'number';
     weightInput.name = 'weight';
+    weightInput.step = '5';
     weightInput.required = true;
     form.appendChild(weightInput);
 
@@ -66,7 +63,6 @@
     submitButton.style.backgroundColor = 'blue';
     form.appendChild(submitButton);
 
-    // 세트 추가 폼을 다이얼로그로 표시
     const dialog = document.createElement('dialog');
     dialog.appendChild(form);
     document.body.appendChild(dialog);

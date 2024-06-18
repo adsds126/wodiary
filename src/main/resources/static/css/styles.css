@@ -73,13 +73,13 @@ body {
       font-size: 12px;
     }
     .duplicate-set-button {
-          background-color: orange;
+          background-color: skyblue;
           border: none;
           color: #721c24;
           padding: 3px 6px;
           width: 20px;
           cursor: pointer;
-          font-size: 12px;
+          font-size: 14px;
         }
 .delete-exercise-button {
       background-color: #f8d7da;
